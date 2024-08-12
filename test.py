@@ -2,9 +2,13 @@ import streamlit as stl
 
 import pandas as pd
 
+import plotly.express as px
+
+import seaborn as sns
+
 stl.set_page_config(page_title='Titanic',page_icon=':bar_chart',layout='wide')
 
-stl.title("My titanic Dashboard")
+stl.title("My titanic Dashboard1")
 
 @stl.cache_data
 def loadDataset(inputfile):
@@ -47,6 +51,37 @@ if inputFile is not None :
         embar_sur_count=embar_sur["Sex"].value_counts()
         embar_sur_per=(embar_sur_count/gendar_embar_Count)*100
         stl.bar_chart(embar_sur_per)
+
+
+
+
+    rrange = [0,12,18,35,60,100]
+    labels = ['child','Teenager','Yount Adul','Adult','Senior']
+    df['Age Group']=pd.cut(df["Age"],bins=rrange,labels=labels)
+    survival_rate=df.groupby(['Age Group','Sex'])['Survived'].mean().reset_index()
+    survival_rate.columns=['Age Group','Sex','Survival Rate']
+    
+
+    customer_colors = ['#FFD23F','#337357']
+
+    fig = px.bar(survival_rate,x='Age Group',y='Survival Rate',color='Sex',
+                 barmode='stack',color_discrete_sequence=customer_colors,
+                 text='Survival Rate',
+                 title="Survival Rate by Age Group Sex"
+                 )
+    fig.update_traces(texttemplate="%{text:.2f}",textposition='inside')
+    stl.plotly_chart(fig)
+
+    customer_colors = ['#FFD23F','#337357']
+
+    fig_scotter=px.scatter(df,y='Age',x='Sex',color='Sex',)
+    stl.plotly_chart(fig_scotter)
+
+    scatter_plot = sns.scatterplot(data=df,x='Survived',y='Age',hue='Sex')
+    stl.pyplot(scatter_plot.figure)
+
+    survival_rate=df.pivot_table(values='Survived',index='Pclass',columns='Embarked',aggfunc='mean')
+    stl.dataframe(survival_rate)
 
 
         

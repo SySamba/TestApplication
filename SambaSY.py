@@ -160,4 +160,4 @@ if inputFile is not None:
     stl.plotly_chart(fig, use_container_width=True)
 
     
-    stl.markdown("<hr><p style='text-align: center; color: #95a5a6;'>Samba SY étudiant Master 2 Business Intelligence à l'UCAD❤️ </p>", unsafe_allow_html=True)
+    stl.markdown("<hr><p style='text-align: center; color: #95a5a6;'>Samba SY étudiant Master 2 Business Intelligence (BI) à l'UCAD❤️ </p>", unsafe_allow_html=True)
